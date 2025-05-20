@@ -53,7 +53,7 @@
     </main>
 
     <footer class="w-full max-w-6xl mt-8 py-4 px-6 text-center text-gray-400 text-sm">
-      © 2024 Mi Dashboard Personalizado. Todos los derechos reservados.
+      © 2025 Mi Dashboard Personalizado. Todos los derechos reservados.
     </footer>
   </div>
 </template>
