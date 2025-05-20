@@ -17,7 +17,7 @@
         </ul>
       </nav>
     </header>
-
+    
     <main class="w-full max-w-6xl flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate__animated animate__fadeInUp">
       
       <div class="col-span-1 md:col-span-2 lg:col-span-3 bg-gray-800 bg-opacity-70 backdrop-filter backdrop-blur-md rounded-2xl shadow-xl p-8 text-center border border-gray-700 transform transition-all duration-500 hover:scale-[1.01]">
