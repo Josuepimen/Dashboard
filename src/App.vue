@@ -1,12 +1,10 @@
-<script setup lang="ts">
-import Login from './components/Login.vue' 
-</script>
-
 <template>
-
-  <Login /> 
+  <router-view />
 </template>
 
-<style scoped>
+<script setup lang="ts">
+</script>
 
+<style scoped>
+/* Estilos generales */
 </style>
