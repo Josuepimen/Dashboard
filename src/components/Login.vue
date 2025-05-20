@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Swal from 'sweetalert2'
-import { useAuthStore } from '../Pages/auth' // Asegúrate que la ruta sea correcta
+import { useAuthStore } from '../Pages/auth' 
 
 const email = ref('')
 const password = ref('')
