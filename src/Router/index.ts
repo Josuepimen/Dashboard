@@ -17,7 +17,7 @@ const router = createRouter({
 })
 
 // 🛡️ Protección de ruta: impide entrar a /dashboard si no hay login
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   const auth = useAuthStore()
 
   // Si el destino es /dashboard y no está logueado, redirigir a /register
