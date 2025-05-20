@@ -31,16 +31,20 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Swal from 'sweetalert2'
+import { useAuthStore } from '../Pages/auth' // Asegúrate que la ruta sea correcta
 
 const email = ref('')
 const password = ref('')
+
+const auth = useAuthStore() // ✅ instanciar el store
 
 const login = () => {
   if (!email.value || !password.value) {
     Swal.fire('Error', 'Todos los campos son obligatorios', 'error')
     return
   }
-  Swal.fire('¡Éxito!', 'Inicio de sesión simulado', 'success')
+
+  auth.login(email.value) // ✅ guardar estado
+  Swal.fire('¡Éxito!', `Bienvenido ${email.value}`, 'success')
 }
 </script>
-
