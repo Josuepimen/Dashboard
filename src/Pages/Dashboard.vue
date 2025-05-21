@@ -37,9 +37,9 @@
       <div class="md:col-span-1 bg-gray-800 bg-opacity-70 backdrop-filter backdrop-blur-md rounded-2xl shadow-xl p-6 border border-gray-700 transform transition-all duration-500 hover:scale-[1.01]">
         <h3 class="text-2xl font-bold text-green-400 mb-4">Actividad Reciente</h3>
         <ul class="space-y-3 text-lg text-gray-300">
-          <li><span class="text-gray-400 text-sm">Hace 10 min:</span> Tarea 'Diseñar Landing' completada.</li>
+          <li><span class="text-gray-400 text-sm">Hace 22 min:</span> Tarea 'Crear Interfaz' completada.</li>
           <li><span class="text-gray-400 text-sm">Hace 1 hr:</span> Nuevo comentario en Proyecto 'Alpha'.</li>
-          <li><span class="text-gray-400 text-sm">Ayer:</span> Documento 'Especificaciones V2' subido.</li>
+          <li><span class="text-gray-400 text-sm">Ayer:</span> Documento 'Readme.txt' subido.</li>
         </ul>
       </div>
 
