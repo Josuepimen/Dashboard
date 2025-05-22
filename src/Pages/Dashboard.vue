@@ -9,7 +9,7 @@
           <li>
             <button 
               @click="logout" 
-              className="text-red-400 hover:text-red-300 transition-colors duration-300 font-medium"
+              class="text-red-400 hover:text-red-300 transition-colors duration-300 font-medium"
             >
               Cerrar Sesión
             </button>
@@ -18,8 +18,9 @@
       </nav>
     </header>
     
+
     <main class="w-full max-w-6xl flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate__animated animate__fadeInUp">
-      
+ 
       <div class="col-span-1 md:col-span-2 lg:col-span-3 bg-gray-800 bg-opacity-70 backdrop-filter backdrop-blur-md rounded-2xl shadow-xl p-8 text-center border border-gray-700 transform transition-all duration-500 hover:scale-[1.01]">
         <h2 class="text-5xl font-extrabold text-white mb-4 leading-tight">¡Bienvenido de nuevo!</h2>
         <p class="text-xl text-gray-300">Aquí tienes un resumen de tu actividad reciente.</p>
@@ -43,28 +44,61 @@
         </ul>
       </div>
 
+   
       <div class="bg-gray-800 bg-opacity-70 backdrop-filter backdrop-blur-md rounded-2xl shadow-xl p-6 border border-gray-700 transform transition-all duration-500 hover:scale-[1.01]">
         <h3 class="text-2xl font-bold text-purple-400 mb-4">Acciones Rápidas</h3>
         <div class="flex flex-col space-y-4">
-          <button class="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-md transition-all duration-300 transform hover:-translate-y-0.5">Crear Nueva Tarea</button>
-          <button class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md transition-all duration-300 transform hover:-translate-y-0.5">Añadir Proyecto</button>
+          <button @click="showTaskModal = true" class="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-md transition-all duration-300 transform hover:-translate-y-0.5">
+            Crear Nueva Tarea
+          </button>
+          <button @click="showProjectModal = true" class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md transition-all duration-300 transform hover:-translate-y-0.5">
+            Añadir Proyecto
+          </button>
         </div>
       </div>
     </main>
 
+
     <footer class="w-full max-w-6xl mt-8 py-4 px-6 text-center text-gray-400 text-sm">
       © 2025 Mi Dashboard Personalizado. Todos los derechos reservados.
     </footer>
+  </div>
+
+ 
+  <div v-if="showTaskModal" class="fixed inset-0 z-50 bg-black bg-opacity-60 flex items-center justify-center">
+    <div class="bg-gray-800 p-6 rounded-2xl w-full max-w-md relative text-white">
+      <button @click="showTaskModal = false" class="absolute top-2 right-4 text-white text-2xl">×</button>
+      <h3 class="text-xl font-bold mb-4 text-purple-400">Crear Nueva Tarea</h3>
+      <input type="text" v-model="taskTitle" placeholder="Título de la tarea" class="w-full p-3 rounded-md bg-gray-700 mb-4" />
+      <button @click="submitTask" class="w-full py-2 bg-purple-600 hover:bg-purple-700 rounded-md">Guardar</button>
+    </div>
+  </div>
+
+
+  <div v-if="showProjectModal" class="fixed inset-0 z-50 bg-black bg-opacity-60 flex items-center justify-center">
+    <div class="bg-gray-800 p-6 rounded-2xl w-full max-w-md relative text-white">
+      <button @click="showProjectModal = false" class="absolute top-2 right-4 text-white text-2xl">×</button>
+      <h3 class="text-xl font-bold mb-4 text-indigo-400">Añadir Proyecto</h3>
+      <input type="file" @change="handleFileChange" class="w-full mb-4 text-white"/>
+      <button @click="submitProject" class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 rounded-md">Subir Proyecto</button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../Store/auth'
-import Swal from 'sweetalert2'; 
+import Swal from 'sweetalert2'
+import { ref } from 'vue'
 
 const router = useRouter()
 const auth = useAuthStore()
+
+// Modales y campos
+const showTaskModal = ref(false)
+const showProjectModal = ref(false)
+const taskTitle = ref('')
+const selectedFile = ref<File | null>(null)
 
 const logout = () => {
   Swal.fire({
@@ -78,16 +112,39 @@ const logout = () => {
     cancelButtonText: 'Cancelar'
   }).then((result) => {
     if (result.isConfirmed) {
-      auth.logout();
-      router.push('/login');
-      Swal.fire(
-        '¡Sesión cerrada!',
-        'Has cerrado tu sesión exitosamente.',
-        'success'
-      );
+      auth.logout()
+      router.push('/login')
+      Swal.fire('¡Sesión cerrada!', 'Has cerrado tu sesión exitosamente.', 'success')
     }
-  });
-};
+  })
+}
+
+const submitTask = () => {
+  if (taskTitle.value.trim() === '') {
+    Swal.fire('Oops!', 'El título no puede estar vacío.', 'error')
+    return
+  }
+  Swal.fire('¡Tarea creada!', `Tarea: ${taskTitle.value}`, 'success')
+  showTaskModal.value = false
+  taskTitle.value = ''
+}
+
+const handleFileChange = (e: Event) => {
+  const target = e.target as HTMLInputElement
+  if (target.files && target.files.length > 0) {
+    selectedFile.value = target.files[0]
+  }
+}
+
+const submitProject = () => {
+  if (!selectedFile.value) {
+    Swal.fire('Error', 'Por favor selecciona un archivo.', 'error')
+    return
+  }
+  Swal.fire('Proyecto subido', `Archivo: ${selectedFile.value.name}`, 'success')
+  showProjectModal.value = false
+  selectedFile.value = null
+}
 </script>
 
 <style scoped>
